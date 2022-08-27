@@ -1,0 +1,62 @@
+<div class="contenedor-principal">
+  <div class="form presupuesto">
+    <label for="presupuesto">Ingresa tu presupuesto:</label>
+    <input
+      id="presupuesto"
+      type="number"
+      [(ngModel)]="presupuesto"
+      (keyup.enter)="ingresarSaldoInicial()"
+      [readonly]="saldoInicialIngresado"
+    />
+    <button
+      (click)="ingresarSaldoInicial()"
+      *ngIf="!saldoInicialIngresado"
+    >
+      Listo
+    </button>
+  </div>
+
+  <div class="form gasto" *ngIf="saldoInicialIngresado">
+    <h3>Agrega tus gastos aquí</h3>
+    <div>
+      <label for="nombre-gasto">Nombre:</label>
+      <input
+        id="nombre-gasto"
+        type="text"
+        [(ngModel)]="nombreGasto"
+        (keyup.enter)="agregarGasto()"
+      />
+    </div>
+    <div>
+      <label for="cantidad-gasto">Cantidad:</label>
+      <input
+        id="cantidad-gasto"
+        type="number"
+        [(ngModel)]="cantidadGasto"
+        (keyup.enter)="agregarGasto()"
+      />
+    </div>
+    <button (click)="agregarGasto()">Listo</button>
+  </div>
+
+  <div class="contenedor-lista" *ngIf="saldoInicialIngresado">
+    <div class="restante">
+      <p>Saldo disponible</p>
+      <p>{{saldo}} Bs</p>
+    </div>
+
+    <div class="caja-lista">
+      <ul>
+        <li *ngFor="let gasto of gastos; index as indice">
+          <p>{{gasto.nombre}}</p>
+          <div>
+            <span>{{gasto.cantidad}} Bs</span>
+            <button (click)="eliminarGasto(indice, gasto.cantidad)">
+              <img src="https://raw.githubusercontent.com/angular-bolivia/ng-she-workshop/develop/src/assets/trash-icon.svg" alt="Eliminar gasto" />
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
